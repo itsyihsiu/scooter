@@ -1,7 +1,7 @@
 # Scooter Renting System
 
-* nestjs
-* mariadb
+- nestjs
+- mariadb
 
 ## Development
 
@@ -13,3 +13,5 @@ npm run test
 ```
 
 ## API
+
+TBD
