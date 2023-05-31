@@ -37,20 +37,22 @@ export class RentsService {
       throw new BadRequestException(`Scooter ${scooterId} not found`);
     }
 
-    const renting = await this.rentRepository
-      .createQueryBuilder('renting')
-      .where('end IS NULL');
-
     const userIsRenting =
-      (await renting.where('userId = :userId', { userId }).getCount()) > 0;
+      (await this.rentRepository
+        .createQueryBuilder()
+        .where('end IS NULL')
+        .andWhere('userId = :userId', { userId })
+        .getCount()) > 0;
 
     if (userIsRenting) {
       throw new BadRequestException(`User '${userId}' already rent a scooter`);
     }
 
     const scooterUnderUse =
-      (await renting
-        .where('scooterId = :scooterId', { scooterId })
+      (await this.rentRepository
+        .createQueryBuilder()
+        .where('end IS NULL')
+        .andWhere('scooterId = :scooterId', { scooterId })
         .getCount()) > 0;
 
     if (scooterUnderUse) {
