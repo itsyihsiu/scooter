@@ -1,5 +1,6 @@
 import { PASSWORD_LENGTH, USERNAME_LENGTH } from 'src/utils/constants';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Rent } from './rent.entity';
 
 @Entity()
 export class User {
@@ -17,4 +18,7 @@ export class User {
 
   @Column()
   createdAt: Date;
+
+  @OneToMany(() => Rent, (rent) => rent.user)
+  rents: Rent[];
 }

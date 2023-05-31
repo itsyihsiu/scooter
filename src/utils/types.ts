@@ -15,3 +15,8 @@ export type CreateScooterParams = {
 export type UpdateScooterParams = {
   dateOfManufacture: string;
 };
+
+export type CreateRentParams = {
+  user: number;
+  scooter: number;
+};
