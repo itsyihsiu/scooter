@@ -5,14 +5,17 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Rent } from 'src/entities/rent.entity';
 import { User } from 'src/entities/user.entity';
 import { CreateUserParams, UpdateUserParams } from 'src/utils/types';
 import { Repository } from 'typeorm';
+import * as moment from 'moment';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Rent) private rentRepository: Repository<Rent>,
   ) {}
 
   findUsers() {
@@ -23,6 +26,31 @@ export class UsersService {
     const user = await this.userRepository.findOneBy({ id });
     if (!user) throw new BadRequestException(`id '${id}' not found`);
     return user;
+  }
+
+  async findUserUsage(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) throw new BadRequestException(`User '${id}' not found`);
+
+    let result = await this.rentRepository
+      .createQueryBuilder()
+      .orderBy('start', 'ASC')
+      .select('start')
+      .addSelect('end')
+      .addSelect('scooterId', 'scooter')
+      .where('userId = :id', { id })
+      .getRawMany();
+
+    result = result.map((entry) => {
+      const start = entry.start;
+      const end = entry.end || new Date();
+      return {
+        ...entry,
+        duration: moment.duration((end - start) / 1000).asMinutes(),
+      };
+    });
+
+    return result;
   }
 
   async createUser(userDetails: CreateUserParams) {

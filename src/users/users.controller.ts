@@ -29,6 +29,11 @@ export class UsersController {
     return this.usersService.findUserById(id);
   }
 
+  @Get(':id/usage')
+  getUserUsage(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findUserUsage(id);
+  }
+
   @Post()
   @UsePipes(new ValidationPipe())
   createUser(@Body() createUserDto: CreateUserDto) {
