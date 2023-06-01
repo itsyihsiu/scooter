@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   ParseIntPipe,
   Patch,
@@ -17,7 +18,10 @@ import { ValidateDateOfManufacturePipe } from 'src/pipes/validate-date-of-manufa
 
 @Controller('scooters')
 export class ScootersController {
-  constructor(private scootersService: ScootersService) {}
+  constructor(
+    @Inject('SCOOTERS_SERVICE')
+    private readonly scootersService: ScootersService,
+  ) {}
 
   @Get()
   async getScooters() {

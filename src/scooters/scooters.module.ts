@@ -7,6 +7,11 @@ import { Scooter } from 'src/entities/scooter.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Scooter])],
   controllers: [ScootersController],
-  providers: [ScootersService],
+  providers: [
+    {
+      provide: 'SCOOTERS_SERVICE',
+      useClass: ScootersService,
+    },
+  ],
 })
 export class ScooterModule {}
