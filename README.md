@@ -12,7 +12,43 @@ npm run start:prod
 npm run test
 ```
 
+### Database
+
+`app.module.ts`
+
+```
+TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'scooter',
+      password: 'scooter',
+      database: 'scooter',
+      // entities: [],
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+```
+
+使用 Docker 建立資料庫
+
+```
+docker run -d --name mysql -p 30011:3306 -e MYSQL_ROOT_PASSWORD=root mysql
+
+docker exec -it mysql mysql -uroot -proot
+```
+
+```
+create user 'scooter'@'172.17.0.1';
+
+grant all privileges on scooter.* to 'scooter'@'172.17.0.1';
+```
+
 ## API
+
+* Create User
+
+![Create User](images/create-user.png)
 
 #### User
 

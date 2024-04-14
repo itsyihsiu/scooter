@@ -13,7 +13,7 @@ import { RentsModule } from './rents/rents.module';
       host: 'localhost',
       port: 3306,
       username: 'scooter',
-      password: 'scooter_23',
+      password: 'scooter',
       database: 'scooter',
       // entities: [],
       autoLoadEntities: true,
