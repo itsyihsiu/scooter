@@ -30,7 +30,7 @@ TypeOrmModule.forRoot({
     }),
 ```
 
-使用 Docker 建立資料庫
+Use docker image as mysql database.
 
 ```
 docker run -d --name mysql -p 30011:3306 -e MYSQL_ROOT_PASSWORD=root mysql
